@@ -1,0 +1,10 @@
+services:
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: galvis
+      POSTGRES_PASSWORD: 0729juanma
+      POSTGRES_DB: hospital
+    ports:
+      - "5432:5432" 

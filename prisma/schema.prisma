@@ -16,45 +16,50 @@ datasource db {
 enum generos {
   M
   F
-  otro
+  OTRO
 }
 model roles {
   id_rol Int @id
-  nombre_rol String @db.Varchar(50)
+  nombre_rol String @db.VarChar(50)
+  usuarios usuarios[]
 }
 
 model usuarios {
   id_user Int @id @default(autoincrement())
-  nombre_completo String @db.Varchar(100)
-  username String @unique @db.Varchar(50)
-  password String @db.Varchar(255)
+  nombre_completo String @db.VarChar(100)
+  username String @unique @db.VarChar(50)
+  password String @db.VarChar(255)
   fk_rol Int
-  fecha_registro DateTime @db.date
+  fecha_registro DateTime @db.Date
   roles roles @relation(fields: [fk_rol],references: [id_rol])  
 }
 
 model pacientes {
   id_paciente Int @id @default(autoincrement())
-  nombre String @db.Varchar(100)
+  nombre String @db.VarChar(100)
   edad Int
   genero generos
-  eps String @db.Varchar(50)
-  fecha_ingreso DateTime @db.date
+  eps String @db.VarChar(50)
+  fecha_ingreso DateTime @db.Date
+  pqr_quejas pqr_quejas[]
+  citas_medicas citas_medicas[]
+  historia_clin historias_clin[]
 }
 
 model pqr_quejas {
   id_pqr Int @id @default(autoincrement())
-  tipo String @db.Varchar(50)
-  estado String @db.Varchar(20)
+  tipo String @db.VarChar(50)
+  estado String @db.VarChar(20)
   id_paciente Int
-  fecha DateTime @db.date
+  fecha DateTime @db.Date
   paciente pacientes @relation(fields: [id_paciente],references: [id_paciente])
+
 }
 
 model citas_medicas {
   id_cita Int @id @default(autoincrement())
-  especialidad String @db.Varchar(50)
-  estado_cita String @db.Varchar(20)
+  especialidad String @db.VarChar(50)
+  estado_cita String @db.VarChar(20)
   fecha DateTime @db.Date
   id_paciente Int 
   pacientes pacientes @relation(fields: [id_paciente],references: [id_paciente])
@@ -62,7 +67,7 @@ model citas_medicas {
 
 model medicamentos {
   id_med Int @id @default(autoincrement())
-  nombre_med String @bd.Varchar(100)
+  nombre_med String @db.VarChar(100)
   stock_actual Int 
   stock_minimo Int
   precio Decimal @db.Decimal(10,2)
@@ -71,24 +76,25 @@ model medicamentos {
 
 model medicos {
 id_medico Int @id @default(autoincrement())
-nombre_medico String @db.Varchar(100)
-especialidad String @db.Varchar(50)
-turno String @db.Varchar(20)
+nombre_medico String @db.VarChar(100)
+especialidad String @db.VarChar(50)
+turno String @db.VarChar(20)
+recetas_med recetas_med[]
 
 }
 
 model facturas {
   id_factura Int @id @default(autoincrement())
-  metodo_pago String @db.Varchar(50)
+  metodo_pago String @db.VarChar(50)
   monto Decimal @db.Decimal(10,2)
   fecha_pago DateTime @db.Date
   
 }
 
-model laboratio {
+model laboratorio {
   id_lab Int @id @default(autoincrement())
-  tipo_examen String @db.Varchar(50)
-  resultado String @db.Varchar(20)
+  tipo_examen String @db.VarChar(50)
+  resultado String @db.VarChar(20)
   fecha DateTime @db.Date
 
 }
@@ -96,37 +102,37 @@ model laboratio {
 model camas_hosp {
   id_cama Int @id @default(autoincrement())
   piso Int
-  estado_cama String @db.Varchar 
+  estado_cama String @db.VarChar(20)
 
 }
 
 model proveedores {
   id_prov Int @id @default(autoincrement())
-  nombre_empresa String @db.Varchar(100)
+  nombre_empresa String @db.VarChar(100)
   monto_deuda Decimal @db.Decimal(10,2)
   calificacion Int
 }
 
 model ambulancias {
   id_amb Int @id @default(autoincrement())
-  placa String @db.Varchar(10)
+  placa String @db.VarChar(10)
   km_recorrido Int 
-  estado_mecanico String @db.Varchar(20)
+  estado_mecanico String @db.VarChar(20)
 
 }
 
 model insumos_aseo {
   id_aseo Int @id @default(autoincrement())
-  articulo String @db.Varchar(50)
+  articulo String @db.VarChar(50)
   cantidad Int
-  area_uso String @db.Varchar(50)
+  area_uso String @db.VarChar(50)
 
 }
 
 model historias_clin {
   id_hist Int @id @default(autoincrement())
-  enfermedad String @db.Varchar(100)
-  alergias String @db.Varchar(100)
+  enfermedad String @db.VarChar(100)
+  alergias String @db.VarChar(100)
   id_paciente Int
   paciente pacientes @relation(fields: [id_paciente],references: [id_paciente])
 
@@ -143,7 +149,7 @@ model recetas_med {
 
 model nomina_pers {
   id_nom Int @id @default(autoincrement())
-  cargo String @db.Varchar(50)
+  cargo String @db.VarChar(50)
   sueldo Decimal @db.Decimal(10,2)
   faltas Int
 
@@ -159,7 +165,7 @@ model emergencias {
 
 model equipos_med {
   id_equipo Int @id @default(autoincrement())
-  nombre_equipo String @db.Varchar(100)
-  estado_uso String @db.Varchar(20)
+  nombre_equipo String @db.VarChar(100)
+  estado_uso String @db.VarChar(20)
   dias_para_mantenimiento Int 
 }
